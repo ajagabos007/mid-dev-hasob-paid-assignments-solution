@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use App\Models\User;
+// use App\Models\User;
+use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Attachment;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
