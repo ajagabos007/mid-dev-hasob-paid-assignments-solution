@@ -32,7 +32,7 @@ trait WithUser {
      * 
      */
     public function setUpUser(){
-
+        $this->user = User::factory()->make();
     }   
 
     
