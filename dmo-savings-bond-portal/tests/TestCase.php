@@ -15,9 +15,10 @@ use Hasob\FoundationCore\Models\Attachment;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
 
-use App\Traits\WithUser;
+use App\Traits\Testing\WithUser;
+use App\Traits\Testing\WithOrganization;
+use App\Traits\Testing\WithDepartment;
 
-use Laravel\Sanctum\Sanctum;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -25,59 +26,34 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use WithUser;
+    use WithOrganization;
+    use WithDepartment;
     // use DatabaseMigrations;
 
-    // protected $test_org;
-    // protected $test_user;
-    // protected $test_dept;
-    // protected $faker;
+ 
+     /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
+        $this->setUpDepartment();
+        $this->setUpOrganization();
         $this->setUpUser();
-        
-    //     $test_org_id = Organization::create([
-    //         'org' => 'app',
-    //         'domain' => 'test',
-    //         'full_url' => 'www.app.test',
-    //         'subdomain' => 'sub',
-    //         'is_local_default_organization' => true,
-    //         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-    //         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-    //     ])->id;
-    //     $test_org = Organization::find($test_org_id);
-
-    //     $test_dept_id = Department::create([
-    //         'key' => 'ict-admin',
-    //         'long_name' => 'ICT Admin',
-    //         'email' => 'ict-admin@app.com',
-    //         'telephone' => '07085554141',
-    //         'physical_location' => '2nd Floor, Room 20 - 28',
-    //         'organization_id' => $test_org_id,
-    //         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-    //         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-    //     ])->id;
-    //     $test_dept = Organization::find($test_dept_id);
-                
-    //     $test_admin_id = User::create([
-    //         'email' => 'admin@app.com',
-    //         'telephone' => '07063321200',
-    //         'password' => Hash::make('password'),
-    //         'first_name' => 'Admin',
-    //         'last_name' => 'Admin',
-    //         'organization_id' => $test_org_id,
-    //         'last_loggedin_at' => Carbon::now()->format('Y-m-d H:i:s'),
-    //         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-    //         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-    //     ])->id;
-    //     $test_user = User::find($test_admin_id);
-
-    //     Sanctum::actingAs(
-    //         $test_user,
-    //         ['*']
-    //     );
-    
+        $this->setUpAdmin();          
     }
 
-
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     *
+     * @throws \Mockery\Exception\InvalidCountException
+     */
+    protected function  tearDown():void {
+        parent::tearDown();
+        // $this->refreshOrganization();
+    }
 }
