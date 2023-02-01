@@ -15,9 +15,9 @@ use Hasob\FoundationCore\Models\Attachment;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
 
-use App\Traits\Testing\WithUser;
-use App\Traits\Testing\WithOrganization;
-use App\Traits\Testing\WithDepartment;
+use Hasob\FoundationCore\Traits\Testing\WithUser;
+use Hasob\FoundationCore\Traits\Testing\WithOrganization;
+use Hasob\FoundationCore\Traits\Testing\WithDepartment;
 
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -30,7 +30,6 @@ abstract class TestCase extends BaseTestCase
     use WithDepartment;
     // use DatabaseMigrations;
 
- 
      /**
      * Setup the test environment.
      *

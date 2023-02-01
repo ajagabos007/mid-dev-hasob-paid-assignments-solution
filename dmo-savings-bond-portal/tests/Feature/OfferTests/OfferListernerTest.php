@@ -7,9 +7,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-use App\Traits\Testing\WithOffer;
-
 use DMO\SavingsBond\Models\Offer;
+
 use DMO\SavingsBond\Events\OfferCreated;
 use DMO\SavingsBond\Events\OfferUpdated;
 use DMO\SavingsBond\Events\OfferDeleted;
@@ -18,7 +17,9 @@ use DMO\SavingsBond\Listeners\OfferCreatedListener;
 use DMO\SavingsBond\Listeners\OfferUpdatedListener;
 use DMO\SavingsBond\Listeners\OfferDeletedListener;
 
-class ListernerTest extends TestCase
+use DMO\SavingsBond\Traits\Testing\WithOffer;
+
+class OfferListernerTest extends TestCase
 {
     use WithOffer;
     /**

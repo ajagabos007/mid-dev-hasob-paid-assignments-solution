@@ -4,9 +4,12 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Hasob\FoundationCore\Models\User;
-use App\Traits\WithOrganization;
+use Hasob\FoundationCore\Models\Organization;
+use Hasob\FoundationCore\Traits\Testing\WithOrganization;
+
 use Hash;
 use Carbon\Carbon;
+
 
 
 class UserFactory extends Factory
@@ -33,9 +36,8 @@ class UserFactory extends Factory
             'password' => Hash::make('password'),
             'first_name' => $this->faker->name(),
             'last_name' => $this->faker->name(),
-            'organization_id' => $this->organization()->id,
+            'organization_id' => Organization::firstorCreate(Organization::newFactory()->make()->toArray()),
             'last_loggedin_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        //     'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
     }
 

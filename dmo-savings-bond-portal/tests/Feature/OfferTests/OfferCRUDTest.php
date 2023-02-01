@@ -5,14 +5,16 @@ namespace Tests\Feature\OfferTests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
 use DMO\SavingsBond\Models\Offer;
-use App\Traits\Testing\WithOffer;
+use DMO\SavingsBond\Traits\Testing\WithOffer;
 
 
-class CRUDTest extends TestCase
+class OfferCRUDTest extends TestCase
 {
     use WithFaker;
     use WithOffer;
+
     /**
      * A feature test Offer can be created
      *
@@ -27,6 +29,8 @@ class CRUDTest extends TestCase
          */
         $this->offer = Offer::create(Offer::factory()->make()->toArray());
         $this->assertModelExists($this->offer);
+        $this->assertDatabaseHas('sb_offers', $this->offer->toArray());
+
 
       
         /**
@@ -70,16 +74,19 @@ class CRUDTest extends TestCase
         // via http request 
         $response = $this->get(route('sb.offers.show', $this->offer->id));
         $response->assertStatus(200);
+        $response->assertViewIs('dmo-savings-bond-module::pages.offers.show');
+
 
         // via api end point request
         $response = $this->withHeaders([
             'accept' => '/application/json',
         ])->get(route('sb-api.offers.show', $this->offer->id));
+        
         $response->assertStatus(200);
     }
 
 
-     /* A feature test Offer can be created
+     /* A feature test Offer can be updated
      *
      * @return void
      */
@@ -95,7 +102,7 @@ class CRUDTest extends TestCase
 
         $this->offer->save();
         $this->offer->refresh();
-        $this->assertTrue($this->offer->status == $new_status);
+        $this->assertTrue($this->offer->wasChanged());
 
 
          /**
@@ -111,16 +118,18 @@ class CRUDTest extends TestCase
         $response = $this->withHeaders([
             'accept' => '/application/json',
         ])->put(route('sb-api.offers.update', $this->offer->id), $this->offer->toArray());
-
+       
+        $response->assertValid(); 
         $response->assertStatus(200);
+
         $this->offer->refresh();
-        $this->assertTrue($this->offer->status == $new_status);
+        $this->assertTrue($this->offer->wasChanged());
     }
 
      /**
-     * @return void
+      *  A feature test offer can be delete
+      * @return void
      */
-
      public function test_offer_can_be_deleted() : void{
         /**
          * offer can be delete via the model directly
@@ -157,6 +166,7 @@ class CRUDTest extends TestCase
      public function test_offer_can_be_permanently_deleted():void
      {
         $this->offer->forceDelete();
+        $this->assertDeleted($this->offer);
         $this->assertModelMissing($this->offer);
      }
 

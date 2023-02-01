@@ -23,7 +23,7 @@ class OfferFactory extends Factory
     public function definition()
     {
         return [
-            'organization_id' => Organization::first()?? Organization::factory()->create()->id,
+            'organization_id' =>Organization::first(),
             'display_ordinal' => $this->faker->randomDigitNotNull,
             'status' => $this->faker->word,
             'wf_status' => $this->faker->word,

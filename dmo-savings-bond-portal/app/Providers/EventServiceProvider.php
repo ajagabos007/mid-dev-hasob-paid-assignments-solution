@@ -8,6 +8,10 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 
 
+use Hasob\FoundationCore\Events\BrokerCreated;
+use Hasob\FoundationCore\Listerners\BrokerCreatedListerner;
+
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -28,7 +32,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(
+            BrokerCreated::class,
+            [BrokerCreatedListener::class, 'handle']
+        );
     }
     public function shouldDiscoverEvents()
     {

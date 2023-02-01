@@ -16,10 +16,10 @@ use DMO\SavingsBond\Events\OfferDeleted;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\Testing\WithOffer;
+use DMO\SavingsBond\Traits\Testing\WithOffer;
 
 
-class EventTest extends TestCase
+class OfferEventTest extends TestCase
 {
     use WithFaker;
     use WithOffer;
@@ -34,9 +34,6 @@ class EventTest extends TestCase
         // authenticate the user
         $this->authUser();
 
-        // setup an offer instance
-        $this->setUpOffer();
-    
         /**
          *  Event::fake(); - Major Error
          * 

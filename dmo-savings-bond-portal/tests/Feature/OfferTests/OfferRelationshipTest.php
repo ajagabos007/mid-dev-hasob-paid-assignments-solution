@@ -5,11 +5,12 @@ namespace Tests\Feature\OfferTests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
 use Hasob\FoundationCore\Models\Organization;
 
-use App\Traits\Testing\WithOffer;
+use DMO\SavingsBond\Traits\Testing\WithOffer;
 
-class RelationshipTest extends TestCase
+class OfferRelationshipTest extends TestCase
 {
     use WithOffer;
 
