@@ -14,6 +14,7 @@ use DMO\SavingsBond\Traits\Testing\WithInvestor;
 class InvestorRelationShipTest extends TestCase
 {
     use WithInvestor;
+    
     /**
      * A feature investor relationship test. investor  belongs to an organization.
      *
@@ -34,5 +35,18 @@ class InvestorRelationShipTest extends TestCase
     {
         parent::setUp();
         $this->setUpInvestor();         
+    }
+
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     *
+     * @throws \Mockery\Exception\InvalidCountException
+     */
+    protected function tearDown(): void
+    {
+        $this->refreshInvestor();         
+        parent::tearDown();
     }
 }

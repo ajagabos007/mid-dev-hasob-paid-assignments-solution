@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-
 use Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 // use App\Models\User;
@@ -27,9 +27,8 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use WithUser;
     use WithOrganization;
-    use WithDepartment;
-    // use DatabaseMigrations;
-
+    use WithDepartment;   
+    
      /**
      * Setup the test environment.
      *
@@ -38,6 +37,11 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        /**
+         * Migrate once and continue testing
+         */
+        Artisan::call('migrate',[]);
+        
         $this->setUpDepartment();
         $this->setUpOrganization();
         $this->setUpUser();

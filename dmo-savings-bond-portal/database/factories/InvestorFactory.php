@@ -27,12 +27,11 @@ class InvestorFactory extends Factory
      */
     public function definition()
     {
-        $is_broker_created = $this->faker->boolean();
         return [
             'organization_id' => Organization::first(),
             'display_ordinal' => $this->faker->randomDigitNotNull,
-            'broker_id' => $is_broker_created ? Broker::firstOrCreate(Broker::factory()->make()->toArray()) : null,
-            'is_broker_created' => $is_broker_created ,
+            'broker_id' => Broker::firstOrCreate(Broker::factory()->make()->toArray()),
+            'is_broker_created' => true ,
             'user_id' => User::factory()->create(),
             'date_of_birth' => $this->faker->date('Y-m-d H:i:s'),
             'origin_geo_zone' => $this->faker->word,
@@ -47,7 +46,7 @@ class InvestorFactory extends Factory
             'bank_account_number' => $this->faker->numerify("##########"),
             'bank_name' => $this->faker->word(),
             'is_bank_account_verified' => $this->faker->boolean(),
-            'bank_account_meta_data' => $this->faker->slug(),
+            'bank_account_meta_data' => $this->faker->text(),
             'bank_verification_number' => $this->faker->randomNumber(),
             'is_bvn_verified' => $this->faker->boolean(),
             'bvn_meta_data' => $this->faker->text(),

@@ -89,89 +89,89 @@ class InvestorCRUDTest extends TestCase
     //   * @return void
     //  */
 
-    //  public function test_investor_can_be_updated() : void{
+     public function test_investor_can_be_updated() : void{
 
-    //     /**
-    //      * investor can be updated via the model directly
-    //      * @var App\Traits\Testing\WithInvestor $this->investor 
-    //      */
-    //     $new_status =$this->faker()->word();
+        /**
+         * investor can be updated via the model directly
+         * @var App\Traits\Testing\WithInvestor $this->investor 
+         */
+        $new_status =$this->faker()->word();
         
-    //     $this->investor->status = $new_status; 
-    //     $this->assertTrue($this->investor->isDirty());
+        $this->investor->status = $new_status; 
+        $this->assertTrue($this->investor->isDirty());
 
-    //     $this->investor->save();
-    //     $this->assertTrue($this->investor->wasChanged());
+        $this->investor->save();
+        $this->assertTrue($this->investor->wasChanged());
 
 
-    //      /**
-    //      * Investor can be update via api end point request 
-    //      * 
-    //      * Authenticate the user
-    //      * @func App\Traits\Testing\WithUser $this->authUser() 
-    //      */
-    //     $this->authUser();
-    //     $new_status =$this->faker()->word();
-    //     $this->investor->status = $new_status; 
+         /**
+         * Investor can be update via api end point request 
+         * 
+         * Authenticate the user
+         * @func App\Traits\Testing\WithUser $this->authUser() 
+         */
+        $this->authUser();
+        $new_status =$this->faker()->word();
+        $this->investor->status = $new_status; 
 
-    //     $response = $this->withHeaders([
-    //         'accept' => '/application/json',
-    //     ])->put(route('sb-api.investors.update', $this->investor->id), $this->investor->toArray());
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.investors.update', $this->investor->id), $this->investor->toArray());
        
-    //     $response->assertValid(); 
-    //     $response->assertStatus(200);
+        $response->assertValid(); 
+        $response->assertStatus(200);
 
-    //     $this->investor->refresh();
-    //     $this->assertTrue($this->investor->wasChanged());
-    // }
+        $this->investor->refresh();
+        $this->assertTrue($this->investor->wasChanged());
+    }
 
-    // /**
-    //   *  A feature test investor can be delete
-    //   * @return void
-    //  */
-    // public function test_investor_can_be_deleted() : void{
-    //     /**
-    //      * investor can be delete via the model directly
-    //      * @var App\Traits\Testing\WithInvestor $this->investor 
-    //      */
-    //     $this->investor->delete();
-    //     $this->assertSoftDeleted($this->investor);
+    /**
+      *  A feature test investor can be delete
+      * @return void
+     */
+    public function test_investor_can_be_deleted() : void{
+        /**
+         * investor can be delete via the model directly
+         * @var App\Traits\Testing\WithInvestor $this->investor 
+         */
+        $this->investor->delete();
+        $this->assertSoftDeleted($this->investor);
 
 
-    //      /**
-    //      * Investor can be delete via api end point request 
-    //      * 
-    //      * Authenticate the user
-    //      * @func App\Traits\Testing\WithUser $this->authUser() 
-    //      */
-    //     $this->authUser();
+         /**
+         * Investor can be delete via api end point request 
+         * 
+         * Authenticate the user
+         * @func App\Traits\Testing\WithUser $this->authUser() 
+         */
+        $this->authUser();
 
-    //     // reinitialise a new investor 
-    //     // @func App\Traits\Testing\WithUser $this->setUpInvestor()
+        // reinitialise a new investor 
+        // @func App\Traits\Testing\WithUser $this->setUpInvestor()
 
-    //     $investor = Investor::factory()->create();
-    //     $response = $this->withHeaders([
-    //         'accept' => '/application/json',
-    //     ])->put(route('sb-api.investors.destroy',  $investor->id), $investor->toArray());
-    //     $response->assertValid();
-    //     $response->assertStatus(200);
-    // }
+        $investor = Investor::factory()->create();
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.investors.destroy',  $investor->id), $investor->toArray());
+        $response->assertValid();
+        $response->assertStatus(200);
+    }
 
-    // /**
-    //  * A feature test Investor can be permanently deleted
-    //  *
-    //  * @return void
-    //  */
-    // public function test_investor_can_be_deleted_permanently():void
-    // {
-    //     /**
-    //      * investor can be deleted permanently via the model directly
-    //      * @property App\Traits\Testing\WithInvestor $this->investor 
-    //      */
-    //    $this->investor->forceDelete();
-    //    $this->assertDeleted($this->investor);
-    //    $this->assertModelMissing($this->investor);
-    // }
+    /**
+     * A feature test Investor can be permanently deleted
+     *
+     * @return void
+     */
+    public function test_investor_can_be_deleted_permanently():void
+    {
+        /**
+         * investor can be deleted permanently via the model directly
+         * @property App\Traits\Testing\WithInvestor $this->investor 
+         */
+       $this->investor->forceDelete();
+       $this->assertDeleted($this->investor);
+       $this->assertModelMissing($this->investor);
+    }
 
     /**
      * Setup the investor event test environment.
