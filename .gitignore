@@ -1,4 +1,3 @@
-/dmo-savings-bond-module
-/dmo-savings-bond-module/*
-/hasob-foundation-core-bs-5
-/hasob-foundation-core-bs-5/*
+/dmo-savings-bond-module/vendor*
+/dmo-savings-bond-module/vendor*
+/hasob-foundation-core-bs-5/vendor*
