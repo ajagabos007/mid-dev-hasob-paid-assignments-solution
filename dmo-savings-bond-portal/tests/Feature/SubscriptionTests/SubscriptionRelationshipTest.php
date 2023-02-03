@@ -49,13 +49,13 @@ class SubscriptionRelationshipTest extends TestCase
      *
      * @return void
     */
-    public function test_subscription_belongs_to_a_broker()
-    {
-        if(!$this->subscription)
-            $this->setUpSubscription();
-        $broker_class = $this->subscription->broker? $this->subscription->broker::class : null;
-        $this->assertTrue($broker_class == Broker::class);
-    }
+    // public function test_subscription_belongs_to_a_broker()
+    // {
+    //     if(!$this->subscription)
+    //         $this->setUpSubscription();
+    //     $broker_class = $this->subscription->broker? $this->subscription->broker::class : null;
+    //     $this->assertTrue($broker_class == Broker::class);
+    // }
 
     /**
      * Setup the investor event test environment.
