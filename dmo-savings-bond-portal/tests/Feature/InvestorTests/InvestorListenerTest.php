@@ -21,34 +21,118 @@ use DMO\SavingsBond\Traits\Testing\WithInvestor;
 
 class InvestorListenerTest extends TestCase
 {
+    use WithFaker;
     use WithInvestor;
-
-    /**
-     * A basic test example investor listener.
-     *
-     * @return void
-     */
-    public function test_example_investor_listener()
-    {
-        $this->assertTrue(true);
-    }
 
     /**
      * A feature test Investor fire created event can be raised
      *
      * @return void
      */
-    // public function test_investor_created_listener_can_be_fired():void 
-    // {
-    //     $this->investor = Investor::create(Investor::factory()->make()->toArray());
-    //     Event::fake();
+    public function test_investor_created_listener_can_be_fired():void 
+    {
+        $this->investor = Investor::create(Investor::factory()->make()->toArray());
+        Event::fake();
 
-    //     InvestorCreated::dispatch($this->investor);
-    //     Event::assertDispatched(InvestorCreated::class);
+        InvestorCreated::dispatch($this->investor);
+        Event::assertDispatched(InvestorCreated::class);
         
-    //     Event::assertListening(
-    //         InvestorCreated::class,
-    //         InvestorCreatedListener::class
-    //     );
-    // }
+        Event::assertListening(
+            InvestorCreated::class,
+            InvestorCreatedListener::class
+        );
+    }
+
+    /**
+     * A feature test Investor fire update event can be raised
+     *
+     * @return void
+     */
+
+     public function test_investor_updated_listener_can_be_fired():void 
+     {
+         
+         /** 
+         * Authenticate the user
+         * 
+         * @func App\Traits\Testing\WithUser $this->authUser() 
+         */
+        $this->authUser();
+        $new_status =$this->faker()->word();
+        $this->investor->status = $new_status; 
+        $this->assertTrue($this->investor->isDirty());
+
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.investors.update', $this->investor->id), $this->investor->toArray());
+       
+        $response->assertValid(); 
+        $response->assertStatus(200);
+
+         Event::fake();
+ 
+         InvestorUpdated::dispatch($this->investor);
+         Event::assertDispatched(InvestorUpdated::class);
+         
+         Event::assertListening(
+             InvestorUpdated::class,
+             InvestorUpdatedListener::class
+         );
+     }
+
+     public function test_investor_delete_listener_can_be_fired():void 
+     {
+        /** 
+         * Authenticate the user
+         * 
+         * @func App\Traits\Testing\WithUser $this->authUser() 
+         */
+        $this->authUser();
+
+        /**
+         * reinitialise investor
+         * 
+         * @func App\Traits\Testing\WithInvestor investor()
+        */   
+        $investor = $this->investor();
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.investors.destroy',  $investor->id), $investor->toArray());
+        $response->assertValid();
+        $response->assertStatus(200);
+
+         Event::fake();
+ 
+         InvestorDeleted::dispatch($this->investor);
+         Event::assertDispatched(InvestorDeleted::class);
+         
+         Event::assertListening(
+             InvestorDeleted::class,
+             InvestorDeletedListener::class
+         );
+     }
+
+    /**
+     * Setup the investor event test environment.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->setUpInvestor();         
+    }
+
+     /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     *
+     * @throws \Mockery\Exception\InvalidCountException
+     */
+    protected function tearDown(): void
+    {
+        $this->refreshInvestor();         
+        parent::tearDown();
+    }
 }

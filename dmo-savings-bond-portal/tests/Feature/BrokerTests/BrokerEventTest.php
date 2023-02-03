@@ -46,6 +46,62 @@ class BrokerEventTest extends TestCase
     }
 
      /**
+     * A feature broker test updated event can be raised.
+     *
+     * @return void
+     */
+    public function test_broker_updated_event_can_be_raised():void
+    {
+        // authenticate the user
+        $this->authUser();
+    
+        /**
+         *  Event::fake(); - Major Error
+         * 
+         *  Using Event:fake() before the operation in tests prevents UUID creation  
+         *  Hence, the event was manually raise after the operation
+         */
+        $new_status =$this->faker()->word();
+
+        $this->broker->status = $new_status; 
+
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.brokers.update',$this->broker->id), $this->broker->toArray());
+        $response->assertStatus(200);
+
+        Event::fake();
+        BrokerUpdated::dispatch($this->broker);
+        Event::assertDispatched(BrokerUpdated::class);
+    }
+
+     /**
+     * A feature broker test deleted event can be raised.
+     *
+     * @return void
+     */
+    public function test_broker_deleted_event_can_be_raised():void
+    {
+        // authenticate the user
+        $this->authUser();
+    
+        /**
+         *  Event::fake(); - Major Error
+         * 
+         *  Using Event:fake() before the operation in tests prevents UUID creation  
+         *  Hence, the event was manually raise after the operation
+         */
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.brokers.destroy',$this->broker->id), $this->broker->toArray());
+        $response->assertStatus(200);
+        
+        Event::fake();
+        BrokerDeleted::dispatch($this->broker);
+        Event::assertDispatched(BrokerDeleted::class);
+    }
+
+     /**
      * Setup the broker event test environment.
      *
      * @return void

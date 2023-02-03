@@ -56,10 +56,14 @@ class BrokerCRUDTest extends TestCase
 
      public function test_broker_can_be_read() : void{
         /**
-         * broker can be created via the model directly
+         * broker can be read via the model directly
          * @var App\Traits\Testing\WithBroker $this->broker 
          */
-        $this->broker = Broker::find($this->broker->id);
+
+        $this->broker = Broker::factory()->create();
+
+        $this->broker = Offer::find($this->broker->id);
+
         $this->assertModelExists($this->broker);
 
          /**

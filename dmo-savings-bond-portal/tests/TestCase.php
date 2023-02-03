@@ -37,10 +37,12 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         /**
          * Migrate once and continue testing
+         * 
          */
-        Artisan::call('migrate',[]);
+        $this->fastMigrate();
         
         $this->setUpDepartment();
         $this->setUpOrganization();
@@ -56,7 +58,25 @@ abstract class TestCase extends BaseTestCase
      * @throws \Mockery\Exception\InvalidCountException
      */
     protected function  tearDown():void {
-        parent::tearDown();
         // $this->refreshOrganization();
+        parent::tearDown();
+    }
+
+    /**
+     *  Migrate the test database if only
+     *  1. Database not migrated 
+     *  2. New migration created 
+     *  
+     * @return void 
+     */
+    public function fastMigrate():void {
+        Artisan::call('migrate',[]);
+        $artisan_ouput = Artisan::output(); 
+        if($artisan_ouput == "Nothing to migrate.\n")
+            return ;
+        else if(strlen($artisan_ouput)<=0)
+            return;
+        else 
+            dd("Test canceled. please run migration on your test database");
     }
 }

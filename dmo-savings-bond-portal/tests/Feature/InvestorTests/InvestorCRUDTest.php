@@ -82,13 +82,12 @@ class InvestorCRUDTest extends TestCase
         $response->assertStatus(200);
     }
 
-    //  /**
-    //   * 
-    //   * A feature test Investor can be updated
-    //   *
-    //   * @return void
-    //  */
-
+     /**
+      * 
+      * A feature test Investor can be updated
+      *
+      * @return void
+     */
      public function test_investor_can_be_updated() : void{
 
         /**

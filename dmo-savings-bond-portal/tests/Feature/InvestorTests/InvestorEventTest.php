@@ -20,11 +20,11 @@ class InvestorEventTest extends TestCase
     use WithInvestor;
     
     /**
-     * A basic feature test created event can be raised.
+     * A feature investor test created event can be raised.
      *
      * @return void
      */
-    public function test_investor_created_event_can_be_raised()
+    public function test_investor_created_event_can_be_raised():void
     {
         // authenticate the user
         $this->authUser();
@@ -48,11 +48,11 @@ class InvestorEventTest extends TestCase
     }
 
     /**
-     * A basic feature test created event can be raised.
+     * A feature investor test updated event can be raised.
      *
      * @return void
      */
-    public function test_investor_updated_event_can_be_raised()
+    public function test_investor_updated_event_can_be_raised():void
     {
         // authenticate the user
         $this->authUser();
@@ -77,7 +77,12 @@ class InvestorEventTest extends TestCase
         Event::assertDispatched(InvestorUpdated::class);
     }
 
-    public function test_investor_deleted_event_can_be_raised()
+     /**
+     * A feature investor test deleted event can be raised.
+     *
+     * @return void
+     */
+    public function test_investor_deleted_event_can_be_raised():void
     {
         // authenticate the user
         $this->authUser();

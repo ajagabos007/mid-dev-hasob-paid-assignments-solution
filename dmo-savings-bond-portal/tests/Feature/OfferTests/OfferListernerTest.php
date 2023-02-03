@@ -21,35 +21,120 @@ use DMO\SavingsBond\Traits\Testing\WithOffer;
 
 class OfferListernerTest extends TestCase
 {
+    use WithFaker;
     use WithOffer;
-
-    /**
-     * A basic test example offer listener.
-     *
-     * @return void
-     */
-    public function test_example_offer_listener()
-    {
-        $this->assertTrue(true);
-    }
 
     /**
      * A feature test Offer fire created event can be raised
      *
      * @return void
      */
-    // public function test_offer_created_listener_can_be_fired():void 
-    // {
-    //     $this->offer = Offer::create(Offer::factory()->make()->toArray());
+    public function test_offer_created_listener_can_be_fired():void 
+    {
+        $this->offer = Offer::create(Offer::factory()->make()->toArray());
 
-    //     Event::fake();
+        Event::fake();
 
-    //     OfferCreated::dispatch($this->offer);
-    //     Event::assertDispatched(OfferCreated::class);
+        OfferCreated::dispatch($this->offer);
+        Event::assertDispatched(OfferCreated::class);
         
-    //     Event::assertListening(
-    //         OfferCreated::class,
-    //         OfferCreatedListener::class
-    //     );
-    // }
+        Event::assertListening(
+            OfferCreated::class,
+            OfferCreatedListener::class
+        );
+    }
+
+    /**
+     * A feature test Offer fire update event can be raised
+     *
+     * @return void
+     */
+
+     public function test_offer_updated_listener_can_be_fired():void 
+     {
+         
+         /** 
+         * Authenticate the user
+         * 
+         * @func App\Traits\Testing\WithUser $this->authUser() 
+         */
+        $this->authUser();
+        $new_status =$this->faker()->word();
+        $this->offer->status = $new_status; 
+        $this->assertTrue($this->offer->isDirty());
+
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.offers.update', $this->offer->id), $this->offer->toArray());
+       
+        $response->assertValid(); 
+        $response->assertStatus(200);
+
+         Event::fake();
+ 
+         OfferUpdated::dispatch($this->offer);
+         Event::assertDispatched(OfferUpdated::class);
+         
+         Event::assertListening(
+             OfferUpdated::class,
+             OfferUpdatedListener::class
+         );
+     }
+
+     public function test_offer_delete_listener_can_be_fired():void 
+     {
+        /** 
+         * Authenticate the user
+         * 
+         * @func App\Traits\Testing\WithUser $this->authUser() 
+         */
+        $this->authUser();
+
+        /**
+         * reinitialise offer
+         * 
+         * @func App\Traits\Testing\WithOffer offer()
+        */   
+        $offer = $this->offer();
+        $response = $this->withHeaders([
+            'accept' => '/application/json',
+        ])->put(route('sb-api.offers.destroy',  $offer->id), $offer->toArray());
+        $response->assertValid();
+        $response->assertStatus(200);
+
+         Event::fake();
+ 
+         OfferDeleted::dispatch($this->offer);
+         Event::assertDispatched(OfferDeleted::class);
+         
+         Event::assertListening(
+             OfferDeleted::class,
+             OfferDeletedListener::class
+         );
+     }
+
+
+     /**
+     * Setup the offer event test environment.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->setUpOffer();         
+    }
+
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     *
+     * @throws \Mockery\Exception\InvalidCountException
+     */
+    protected function tearDown(): void
+    {
+        $this->refreshOffer();         
+        parent::tearDown();
+    }
 }

@@ -23,7 +23,7 @@ class BrokerFactory extends Factory
     public function definition()
     {
         return [
-            'organization_id' => Organization::first(),
+            'organization_id' => Organization::firstOrCreate(Organization::newFactory()->make()->toArray()),
             'display_ordinal' => $this->faker->randomDigitNotNull,
             'status' => $this->faker->word,
             'wf_status' => $this->faker->word,
