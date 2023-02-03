@@ -72,11 +72,5 @@ abstract class TestCase extends BaseTestCase
     public function fastMigrate():void {
         Artisan::call('migrate',[]);
         $artisan_ouput = Artisan::output(); 
-        if($artisan_ouput == "Nothing to migrate.\n")
-            return ;
-        else if(strlen($artisan_ouput)<=0)
-            return;
-        else 
-            dd("Test canceled. please run migration on your test database");
     }
 }
